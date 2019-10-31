@@ -10,8 +10,11 @@ float timeToEndGame = 25000;
 int score = 0; 
 
 //starting position of player 
-int xPos = 250;
-int yPos = 305; 
+//int xPos = 250;
+//int yPos = 305; 
+
+float xPos; 
+float yPos; 
 
 //direction of player movement 
 int horizontal = 0;
@@ -21,12 +24,13 @@ int state;
 
 int gameScreen = 0; 
 
-float [] x = new float [15];
-float [] y = new float [15]; 
-float [] dx = new float[15]; 
-float [] dy = new float [15]; 
+float [] x = new float [100];
+float [] y = new float [100]; 
+float [] dx = new float[100]; 
+float [] dy = new float [100]; 
 
 float radius = 5; 
+float playerRadius = 2; 
 float separateX;
 float separateY; 
 
@@ -47,6 +51,9 @@ void setup() {
 
 void draw() {
   xPos = xPos + horizontal;
+  
+  xPos = mouseX; 
+  yPos = mouseY; 
 
   if (gameScreen == 0) {
     screen1();
@@ -75,21 +82,24 @@ void gameScreen() {
 
 void gameOverScreen() {
   background(255); 
-  text("you collected this many sunshines, click mouse to try again:  "+ score, 30, 200);
+  text("you collected this many sunshines, click mouse to try again:  "+ score, 10, 200);
   gameScreen = 2;
 }
 
 public void player() {
+  
   //draw the player in the screen 
   player = loadImage("flowerplayer.png");
   image(player, xPos, yPos);
+  playerRadius = 2; 
+  
 }
 
 public void drawUI() {
   textSize(15); 
   fill(0);
   text("Catch as many sunshines as you can in 20 seconds!", 45, 40);
-  text("use the A and D keys to move", 55, 60); 
+  text("use the mouse to move", 55, 60); 
 
   text("sunshines collected:" + score, 100, 120); 
   text("hurry! " + ((timeToEndGame - millis())/1000), 80, 90);
@@ -104,31 +114,41 @@ public void ellipseArray() {
     if (x[i] > width - radius || x[i] < radius) {
       dx[i] *= -1;
     }
-    if (y[i] > height - radius || y[i] < radius) {
+    if (y[i] > height - radius || y[i] < playerRadius) {
       dy[i] *= -1;
     }
 
     x[i] += dx[i];
     y[i] += dy[i];
-
-    if (dist(separateX, separateY, x[i], y[i]) < radius*2) {
+   
+    
+    
+    if (dist(xPos, yPos, x[i], y[i]) < radius*2) {
       fill(0, 150, 255);
+      x[i] = -10000; 
+      y[i] = -10000; 
+      score++; 
     } else
     { 
-      fill(255);
+      fill(255, 255, 0); 
     }
 
     for (int j = 0; j < x.length; j++) {
       if (i !=j) {
         if (dist(x[i], y[i], x[j], y[j]) < radius * 2) {
-          fill(255, 150, 0);
+          //fill(255, 150, 0);
+          
+          
         }
       }
     }
     noStroke(); 
-  fill(255, 255, 0); 
+  //fill(255, 255, 0); 
     ellipse(x[i], y[i], radius*2, radius*2);
   }
+  noFill();
+  noStroke(); 
+  ellipse(xPos, yPos, radius*2, radius*2); 
 }
 
 
