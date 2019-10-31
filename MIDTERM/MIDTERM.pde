@@ -1,5 +1,7 @@
 //catching game with score 
-//ArrayList<Sunshine> sunshines; 
+//ArrayList<Sunshines> sunshines; 
+
+//float [] xPositions
 
 PImage background; 
 PImage player; 
@@ -22,12 +24,13 @@ int seconds = 0;
 int interval = 31; 
 
 int horizontal = 0; 
-int x = 0; 
-int y = 0; 
+int xPos = 250; 
+int yPos = 305; 
 int t = 0; 
 int score = 0; 
 int w; 
 int playerSpeed; 
+int delay; 
 
 
 void setup() {
@@ -39,75 +42,84 @@ void setup() {
   w = (int) (width*4); 
   speed = (int)(height*(0.005)); 
   playerSpeed = (int)(width * (0.2)); 
-
+  delay = (int)(height * (0.8)); 
 
   background = loadImage("skybg.png");
+
+  
 }
 
 void draw() {
   background(background); 
+  textSize(15); 
+  fill(0); 
+  text("Catch as many sunshines as you can in 20 seconds!", 45, 40);
+  text("use the A and D keys to move", 55, 60); 
+  xPos = xPos + horizontal; 
 
-  x = x + horizontal; 
+  player();
 
-  player(); 
+  /////sunshines////
+  int posX;
+  int posY; 
 
-  w = constrain((int)(w+playerSpeed * (right-left)), 0, (int)(width*0.8)); 
-  player = loadImage("flowerplayer.png");
-  image(player, 215, 305);
+  for (int i = 0; i <20; i=i+1) {
+    posX = int(random(width-100));
+    posY = int(random(width-100)); 
+  
+  }
+  
+
+  
 }
+
+
 
 /////////DRAW PLAYER////////////////////////////////////////////////////////////
 public void player() {
 
   player = loadImage("flowerplayer.png");
-  image(player, 215, 305);
+  image(player, xPos, yPos);
 }
+
+///////////SUNSHINES////////////////////////////////////////////////////////////
+
+
+
+
+///////////TIMER////////////////////////////////////////////////////////////
+void timer() {
+  milliseconds = millis(); 
+
+  textSize(15);
+  text(int(seconds), width/2, height/2); 
+
+  if (seconds >= 25) {
+    //display score 
+    //enter to reset
+  }
+}
+
 
 ///////////WASD////////////////////////////////////////////////////////////
 double right = 0;
 double left = 0; 
 
 void keyPressed() {
-  if (key == LEFT) {
-    left = 1;
+  if (key == 'd') {
+    horizontal = 1;
   }
-  if (key == RIGHT) {
-    right = -1;
+  if (key == 'a') {
+    horizontal = -1;
   }
 }
-
 
 void keyReleased() {
-  if (key == LEFT) {
-    left = 0;
+  if (key == 'd' && horizontal>0) {
+    horizontal = 0;
   } else if 
-    (keyCode == RIGHT) {
-      right = 0;
-    }
+    (keyCode == 'a' && horizontal<0) {
+    horizontal = 0;
   }
 }
-///////////SUNSHINES////////////////////////////////////////////////////////////
-class sunshines {
-  float x, y, d, s; 
-  //float offset = random(-0.25, 0.25); 
-
-  sunshines(int mx, int my, int diameter, int speed)
-    x = mx;
-  y = my; 
-  d = diameter;
-  s = speed;
-}
-
-void update() {
-  y += s; 
-  display();
-}
-
-void display() {
-  nostroke();
-  fill(255, 204, 0); 
-  ellipse(x, y, d, d);
-}
-
-
-///////////XX////////////////////////////////////////////////////////////
+//////////////////
