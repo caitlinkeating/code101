@@ -1,3 +1,13 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.effects.*;
+import ddf.minim.signals.*;
+import ddf.minim.spi.*;
+import ddf.minim.ugens.*; 
+
+Minim minim; 
+AudioPlayer ap; 
+
 PImage background;
 PImage player;
 
@@ -38,6 +48,9 @@ float separateY;
 void setup() {
   size(500, 400); 
   background = loadImage("skybg.png");
+  
+minim = new Minim(this); 
+ap = minim.loadFile("file.mp3"); 
 
   for (int i = 0; i <x.length; i++) {
     x[i] = width/2;
@@ -124,6 +137,7 @@ public void ellipseArray() {
     
     
     if (dist(xPos, yPos, x[i], y[i]) < radius*2) {
+      ap.play(); 
       fill(0, 150, 255);
       x[i] = -10000; 
       y[i] = -10000; 
