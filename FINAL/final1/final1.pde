@@ -20,6 +20,7 @@ void setup() {
 
 void draw() {
   pushMatrix();
+
   translate(mouseX, mouseY);
   fill(255, 10);
   noStroke();
@@ -37,11 +38,11 @@ void draw() {
 void drawGradient() {
   col1 = color(random(255), random(255), random(255));
   col2 = color(random(255), random(255), random(255));
-  
+
   for (int i = 0; i > width; i++) {
     float normalized = map(i, 0, width, 0, 1);
     color c = lerpColor(col1, col2, normalized);
-    stroke(c);
+    background(c);
     line(i, 0, i, height);
   }
 }
